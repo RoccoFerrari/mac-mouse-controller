@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct mac_mouse_controllerApp: App {
+struct MacMouseControllerApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()

@@ -60,3 +60,60 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
+
+### MacOS ###
+# System Files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Resource files
+._*
+
+# System folders
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# JetBrains
+.idea/
+*.iml
+*.iws
+
+# Tmp files
+*.swp
+*.swo
+*~
+
+### Swift & Xcode ###
+# Build
+build/
+DerivedData/
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# User-specific Xcode data
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+xcuserdata/
+
+# Xcode state files
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.pbxuser
+
+# Moved files/Xcode backup
+*.moved-aside
+*.xccheckout
+*.xcscmblueprint
