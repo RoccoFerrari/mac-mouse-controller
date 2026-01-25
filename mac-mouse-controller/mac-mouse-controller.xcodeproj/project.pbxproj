@@ -6,7 +6,18 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		EB7E73212F263C9B00215EFC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7E731D2F263C9B00215EFC /* ContentView.swift */; };
+		EB7E73222F263C9B00215EFC /* MacMouseControllerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7E731E2F263C9B00215EFC /* MacMouseControllerApp.swift */; };
+		EB7E73232F263C9B00215EFC /* PermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7E731F2F263C9B00215EFC /* PermissionManager.swift */; };
+		EB7E732A2F26425D00215EFC /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7E73292F26425300215EFC /* AppState.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		EB7E731D2F263C9B00215EFC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		EB7E731E2F263C9B00215EFC /* MacMouseControllerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacMouseControllerApp.swift; sourceTree = "<group>"; };
+		EB7E731F2F263C9B00215EFC /* PermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManager.swift; sourceTree = "<group>"; };
+		EB7E73292F26425300215EFC /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		EB9F3B9A2F2627D200F58591 /* mac-mouse-controller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mac-mouse-controller.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -29,9 +40,45 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EB7E73252F263D4900215EFC /* Core */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		EB7E73262F263D5700215EFC /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				EB7E731D2F263C9B00215EFC /* ContentView.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		EB7E73272F263D6000215EFC /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				EB7E731F2F263C9B00215EFC /* PermissionManager.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		EB7E73282F263D6900215EFC /* App */ = {
+			isa = PBXGroup;
+			children = (
+				EB7E73292F26425300215EFC /* AppState.swift */,
+				EB7E731E2F263C9B00215EFC /* MacMouseControllerApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
 		EB9F3B912F2627D200F58591 = {
 			isa = PBXGroup;
 			children = (
+				EB7E73282F263D6900215EFC /* App */,
+				EB7E73272F263D6000215EFC /* Utils */,
+				EB7E73262F263D5700215EFC /* UI */,
+				EB7E73252F263D4900215EFC /* Core */,
 				EB9F3B9C2F2627D200F58591 /* mac-mouse-controller */,
 				EB9F3B9B2F2627D200F58591 /* Products */,
 			);
@@ -119,6 +166,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EB7E73212F263C9B00215EFC /* ContentView.swift in Sources */,
+				EB7E73222F263C9B00215EFC /* MacMouseControllerApp.swift in Sources */,
+				EB7E73232F263C9B00215EFC /* PermissionManager.swift in Sources */,
+				EB7E732A2F26425D00215EFC /* AppState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
