@@ -14,6 +14,9 @@
 		EBFD7B462F27C05D005AD941 /* MouseHookService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFD7B452F27BCED005AD941 /* MouseHookService.swift */; };
 		EBFD7B472F27C063005AD941 /* BackButtonHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFD7B442F27BC73005AD941 /* BackButtonHandler.swift */; };
 		EBFD7B482F27C068005AD941 /* MouseEventHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFD7B422F27BC32005AD941 /* MouseEventHandler.swift */; };
+		EBFD7B4D2F27C3A3005AD941 /* MappingProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFD7B4C2F27C345005AD941 /* MappingProfile.swift */; };
+		EBFD7B4E2F27C3B2005AD941 /* InputDefinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFD7B4A2F27C1C9005AD941 /* InputDefinitions.swift */; };
+		EBFD7B4F2F27C3C8005AD941 /* ActionDefinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFD7B4B2F27C296005AD941 /* ActionDefinitions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +28,9 @@
 		EBFD7B422F27BC32005AD941 /* MouseEventHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MouseEventHandler.swift; sourceTree = "<group>"; };
 		EBFD7B442F27BC73005AD941 /* BackButtonHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButtonHandler.swift; sourceTree = "<group>"; };
 		EBFD7B452F27BCED005AD941 /* MouseHookService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MouseHookService.swift; sourceTree = "<group>"; };
+		EBFD7B4A2F27C1C9005AD941 /* InputDefinitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputDefinitions.swift; sourceTree = "<group>"; };
+		EBFD7B4B2F27C296005AD941 /* ActionDefinitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionDefinitions.swift; sourceTree = "<group>"; };
+		EBFD7B4C2F27C345005AD941 /* MappingProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MappingProfile.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -84,6 +90,7 @@
 		EB9F3B912F2627D200F58591 = {
 			isa = PBXGroup;
 			children = (
+				EBFD7B492F27C1B2005AD941 /* Models */,
 				EB7E73282F263D6900215EFC /* App */,
 				EB7E73272F263D6000215EFC /* Utils */,
 				EB7E73262F263D5700215EFC /* UI */,
@@ -107,6 +114,16 @@
 				EBFD7B442F27BC73005AD941 /* BackButtonHandler.swift */,
 			);
 			path = Handlers;
+			sourceTree = "<group>";
+		};
+		EBFD7B492F27C1B2005AD941 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				EBFD7B4C2F27C345005AD941 /* MappingProfile.swift */,
+				EBFD7B4B2F27C296005AD941 /* ActionDefinitions.swift */,
+				EBFD7B4A2F27C1C9005AD941 /* InputDefinitions.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -187,6 +204,9 @@
 				EBFD7B462F27C05D005AD941 /* MouseHookService.swift in Sources */,
 				EB7E73222F263C9B00215EFC /* MacMouseControllerApp.swift in Sources */,
 				EB7E73232F263C9B00215EFC /* PermissionManager.swift in Sources */,
+				EBFD7B4E2F27C3B2005AD941 /* InputDefinitions.swift in Sources */,
+				EBFD7B4D2F27C3A3005AD941 /* MappingProfile.swift in Sources */,
+				EBFD7B4F2F27C3C8005AD941 /* ActionDefinitions.swift in Sources */,
 				EB7E732A2F26425D00215EFC /* AppState.swift in Sources */,
 				EBFD7B482F27C068005AD941 /* MouseEventHandler.swift in Sources */,
 				EBFD7B472F27C063005AD941 /* BackButtonHandler.swift in Sources */,
