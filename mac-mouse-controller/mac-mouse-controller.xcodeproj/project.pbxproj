@@ -17,6 +17,7 @@
 		EBFD7B4D2F27C3A3005AD941 /* MappingProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFD7B4C2F27C345005AD941 /* MappingProfile.swift */; };
 		EBFD7B4E2F27C3B2005AD941 /* InputDefinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFD7B4A2F27C1C9005AD941 /* InputDefinitions.swift */; };
 		EBFD7B4F2F27C3C8005AD941 /* ActionDefinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFD7B4B2F27C296005AD941 /* ActionDefinitions.swift */; };
+		EBFD7B512F27C580005AD941 /* ConfigurableHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFD7B502F27C56E005AD941 /* ConfigurableHandler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		EBFD7B4A2F27C1C9005AD941 /* InputDefinitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputDefinitions.swift; sourceTree = "<group>"; };
 		EBFD7B4B2F27C296005AD941 /* ActionDefinitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionDefinitions.swift; sourceTree = "<group>"; };
 		EBFD7B4C2F27C345005AD941 /* MappingProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MappingProfile.swift; sourceTree = "<group>"; };
+		EBFD7B502F27C56E005AD941 /* ConfigurableHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurableHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -111,6 +113,7 @@
 		EBFD7B432F27BC62005AD941 /* Handlers */ = {
 			isa = PBXGroup;
 			children = (
+				EBFD7B502F27C56E005AD941 /* ConfigurableHandler.swift */,
 				EBFD7B442F27BC73005AD941 /* BackButtonHandler.swift */,
 			);
 			path = Handlers;
@@ -208,6 +211,7 @@
 				EBFD7B4D2F27C3A3005AD941 /* MappingProfile.swift in Sources */,
 				EBFD7B4F2F27C3C8005AD941 /* ActionDefinitions.swift in Sources */,
 				EB7E732A2F26425D00215EFC /* AppState.swift in Sources */,
+				EBFD7B512F27C580005AD941 /* ConfigurableHandler.swift in Sources */,
 				EBFD7B482F27C068005AD941 /* MouseEventHandler.swift in Sources */,
 				EBFD7B472F27C063005AD941 /* BackButtonHandler.swift in Sources */,
 			);

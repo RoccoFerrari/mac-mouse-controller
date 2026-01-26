@@ -14,6 +14,7 @@ internal import Combine
 class AppState: ObservableObject {
     @Published var hasPermissions: Bool = false
     @Published var isEngineRunning: Bool = false
+    @Published var userProfile = UserProfile()
     
     private var permissionTimer: AnyCancellable?
     
@@ -52,15 +53,25 @@ class AppState: ObservableObject {
     private func startAppEngine() {
         print("Permissions OK. Configuring Mouse Engine...")
         
-        // Handler config. (Chain of Responsibility)
-        // Here we decide which features to activate and in what order.
-        // For example, let's add the back button handler:
-        mouseDriver.add(handler: BackButtonHandler())
-        
-        // Starting logic
-        mouseDriver.start()
-        
-        isEngineRunning = true
+        // fake rule for testing
+        // Map key 3 (Back) -> action "back" (CMD + [)
+        let testRule = MappingRule(
+                    mouseButton: .back,       // physic button
+                    requiredModifiers: [],    // no keyboard pressed
+                    action: .navigation(.back) // logic action
+                )
+                
+                // rule added to profile
+                userProfile.rules.append(testRule)
+                // -------------------------------
+                
+                // dynamic handler
+                // pass the profile (by reference)
+                let configHandler = ConfigurableHandler(profile: userProfile)
+                mouseDriver.add(handler: configHandler)
+                
+                mouseDriver.start()
+                isEngineRunning = true
     }
     
     func openSettings() {

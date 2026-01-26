@@ -30,7 +30,7 @@ enum MouseButton: Int, Codable, CaseIterable {
 }
 
 // Map keyboard modifier keys (Cmd, Ctrl, etc.) in a Codable way.
-struct ModifierSet: OptionSet, Codable {
+struct ModifierSet: OptionSet, Codable, Hashable {
     let rawValue: Int
     
     static let command = ModifierSet(rawValue: 1 << 0)
