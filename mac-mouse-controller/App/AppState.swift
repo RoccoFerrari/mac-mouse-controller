@@ -17,6 +17,9 @@ class AppState: ObservableObject {
     
     private var permissionTimer: AnyCancellable?
     
+    // Init the interceptor
+    private let mouseDriver = MouseHookService()
+    
     init() {
         // Initial check with PROMPT (showing popup)
         self.hasPermissions = PermissionManager.checkAccessibilityPermissions(shouldPrompt: true)
@@ -47,9 +50,17 @@ class AppState: ObservableObject {
     }
     
     private func startAppEngine() {
-        print("Permissions OK, starting app engine...")
+        print("Permissions OK. Configuring Mouse Engine...")
+        
+        // Handler config. (Chain of Responsibility)
+        // Here we decide which features to activate and in what order.
+        // For example, let's add the back button handler:
+        mouseDriver.add(handler: BackButtonHandler())
+        
+        // Starting logic
+        mouseDriver.start()
+        
         isEngineRunning = true
-        // Init of the MouseController
     }
     
     func openSettings() {
@@ -57,6 +68,8 @@ class AppState: ObservableObject {
     }
     
     func quitApp() {
+        // Stop the driver
+        mouseDriver.stop()
         NSApplication.shared.terminate(nil)
     }
 }
