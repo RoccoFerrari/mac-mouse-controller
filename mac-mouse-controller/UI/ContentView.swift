@@ -8,45 +8,107 @@
 import SwiftUI
 
 struct ContentView: View {
+    // Access the global state
     @EnvironmentObject var appState: AppState
     
+    // State to manage the "Add Rule" sheet presentation
+    @State private var showAddSheet = false
+    
     var body: some View {
-        VStack(spacing: 20) {
-            if appState.hasPermissions {
-                // UI with no errors
-                Image(systemName: "computermouse.fill")
-                    .font(.system(size: 60))
-                    .foregroundStyle(.green)
-                Text("Mouse Control Enabled")
-                    .font(.title)
-                Text("Application is running in background.")
-                    .foregroundStyle(.secondary)
-            } else {
-                // UI permession request
-                Image(systemName: "hand.raised.fill")
-                    .font(.system(size: 60))
-                    .foregroundStyle(.red)
-                Text("Permissions Needed")
-                    .font(.title)
-                Text("Please, allow mouse control in system settings.")
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal)
-                                
-                Button("Open Settings") {
-                    appState.openSettings()
+        NavigationStack {
+            VStack {
+                if appState.hasPermissions {
+                    // state 1: Permissions Granted -> Show Rule List
+                    if appState.userProfile.rules.isEmpty {
+                        // Empty state placeholder
+                        VStack(spacing: 20) {
+                            Image(systemName: "mouse.fill")
+                                .font(.system(size: 60))
+                                .foregroundStyle(.gray.opacity(0.3))
+                            Text("No Rules Configured")
+                                .font(.title2)
+                                .foregroundStyle(.secondary)
+                            Text("Click + to add your first custom mapping.")
+                                .foregroundStyle(.tertiary)
+                        }
+                        .frame(maxHeight: .infinity)
+                    } else {
+                        // The actual list of configured rules
+                        List {
+                            ForEach(appState.userProfile.rules) { rule in
+                                NavigationLink {
+                                    // Navigate to Detail View in "Edit Mode"
+                                    RuleDetailView(userProfile: appState.userProfile, rule: rule, isNew: false)
+                                } label: {
+                                    // Custom row view for the rule
+                                    RuleRowView(rule: rule)
+                                }
+                            }
+                            .onDelete(perform: deleteRule)
+                        }
+                        .listStyle(.inset)
+                    }
+                    
+                } else {
+                    // state 2: Permissions Missing -> Show Request UI
+                    VStack(spacing: 20) {
+                        Image(systemName: "hand.raised.fill")
+                            .font(.system(size: 60))
+                            .foregroundStyle(.red)
+                        
+                        Text("Permissions Needed")
+                            .font(.title)
+                        
+                        Text("Please, allow mouse control in System Settings -> Privacy & Security -> Accessibility.")
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal)
+                            .foregroundStyle(.secondary)
+                        
+                        Button("Open Settings") {
+                            appState.openSettings()
+                        }
+                        .controlSize(.large)
+                        .buttonStyle(.borderedProminent)
+                        
+                        // Quit button is useful if the user gets stuck here
+                        Button("Exit App") {
+                            appState.quitApp()
+                        }
+                        .padding(.top)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
-                .controlSize(.large)
-                .buttonStyle(.borderedProminent)
             }
-            
-            Divider()
-            
-            Button("Exit") {
-                appState.quitApp()
+            .navigationTitle("Mouse Controller")
+            // Toolbar is only relevant if we have permissions to configure things
+            .toolbar {
+                if appState.hasPermissions {
+                    ToolbarItem(placement: .primaryAction) {
+                        Button(action: { showAddSheet = true }) {
+                            Label("Add Rule", systemImage: "plus")
+                        }
+                    }
+                }
+            }
+            // The popup sheet for adding a new rule
+            .sheet(isPresented: $showAddSheet) {
+                NavigationStack {
+                    // Initialize Detail View with a fresh, empty rule
+                    RuleDetailView(
+                        userProfile: appState.userProfile,
+                        rule: MappingRule(mouseButton: .other, requiredModifiers: [], action: .none),
+                        isNew: true
+                    )
+                }
+                .frame(minWidth: 500, minHeight: 450) // Set a reasonable size for the popup
             }
         }
-        .padding()
-        .frame(width: 400, height: 300)
+        // Base window size constraint
+        .frame(minWidth: 600, minHeight: 400)
+    }
+    
+    // Helper to delete rules via swipe or delete key
+    func deleteRule(at offsets: IndexSet) {
+        appState.userProfile.rules.remove(atOffsets: offsets)
     }
 }
-

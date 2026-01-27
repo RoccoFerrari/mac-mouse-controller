@@ -11,6 +11,9 @@
 		EB7E73222F263C9B00215EFC /* MacMouseControllerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7E731E2F263C9B00215EFC /* MacMouseControllerApp.swift */; };
 		EB7E73232F263C9B00215EFC /* PermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7E731F2F263C9B00215EFC /* PermissionManager.swift */; };
 		EB7E732A2F26425D00215EFC /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7E73292F26425300215EFC /* AppState.swift */; };
+		EB9475F42F28E527002A0755 /* UIHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9475F32F28E51E002A0755 /* UIHelpers.swift */; };
+		EB9475F62F28E5D2002A0755 /* RuleRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9475F52F28E5C1002A0755 /* RuleRowView.swift */; };
+		EB9475F82F28E6FD002A0755 /* RuleDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9475F72F28E6F2002A0755 /* RuleDetailView.swift */; };
 		EBFD7B462F27C05D005AD941 /* MouseHookService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFD7B452F27BCED005AD941 /* MouseHookService.swift */; };
 		EBFD7B472F27C063005AD941 /* BackButtonHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFD7B442F27BC73005AD941 /* BackButtonHandler.swift */; };
 		EBFD7B482F27C068005AD941 /* MouseEventHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFD7B422F27BC32005AD941 /* MouseEventHandler.swift */; };
@@ -25,6 +28,9 @@
 		EB7E731E2F263C9B00215EFC /* MacMouseControllerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacMouseControllerApp.swift; sourceTree = "<group>"; };
 		EB7E731F2F263C9B00215EFC /* PermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManager.swift; sourceTree = "<group>"; };
 		EB7E73292F26425300215EFC /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		EB9475F32F28E51E002A0755 /* UIHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelpers.swift; sourceTree = "<group>"; };
+		EB9475F52F28E5C1002A0755 /* RuleRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuleRowView.swift; sourceTree = "<group>"; };
+		EB9475F72F28E6F2002A0755 /* RuleDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuleDetailView.swift; sourceTree = "<group>"; };
 		EB9F3B9A2F2627D200F58591 /* mac-mouse-controller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mac-mouse-controller.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBFD7B422F27BC32005AD941 /* MouseEventHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MouseEventHandler.swift; sourceTree = "<group>"; };
 		EBFD7B442F27BC73005AD941 /* BackButtonHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButtonHandler.swift; sourceTree = "<group>"; };
@@ -67,6 +73,9 @@
 		EB7E73262F263D5700215EFC /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				EB9475F72F28E6F2002A0755 /* RuleDetailView.swift */,
+				EB9475F52F28E5C1002A0755 /* RuleRowView.swift */,
+				EB9475F32F28E51E002A0755 /* UIHelpers.swift */,
 				EB7E731D2F263C9B00215EFC /* ContentView.swift */,
 			);
 			path = UI;
@@ -206,6 +215,8 @@
 				EB7E73212F263C9B00215EFC /* ContentView.swift in Sources */,
 				EBFD7B462F27C05D005AD941 /* MouseHookService.swift in Sources */,
 				EB7E73222F263C9B00215EFC /* MacMouseControllerApp.swift in Sources */,
+				EB9475F62F28E5D2002A0755 /* RuleRowView.swift in Sources */,
+				EB9475F42F28E527002A0755 /* UIHelpers.swift in Sources */,
 				EB7E73232F263C9B00215EFC /* PermissionManager.swift in Sources */,
 				EBFD7B4E2F27C3B2005AD941 /* InputDefinitions.swift in Sources */,
 				EBFD7B4D2F27C3A3005AD941 /* MappingProfile.swift in Sources */,
@@ -214,6 +225,7 @@
 				EBFD7B512F27C580005AD941 /* ConfigurableHandler.swift in Sources */,
 				EBFD7B482F27C068005AD941 /* MouseEventHandler.swift in Sources */,
 				EBFD7B472F27C063005AD941 /* BackButtonHandler.swift in Sources */,
+				EB9475F82F28E6FD002A0755 /* RuleDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
