@@ -21,7 +21,17 @@ class AppState: ObservableObject {
     // Init the interceptor
     private let mouseDriver = MouseHookService()
     
+    // Needed for propagate modify from UserProfile to UI
+    private var cancellables = Set<AnyCancellable>()
+    
     init() {
+        // Reactivity setup: when UserProvile changes, notify the UI
+        userProfile.objectWillChange
+                    .sink { [weak self] _ in
+                        self?.objectWillChange.send()
+                    }
+                    .store(in: &cancellables)
+        
         // Initial check with PROMPT (showing popup)
         self.hasPermissions = PermissionManager.checkAccessibilityPermissions(shouldPrompt: true)
         
@@ -52,26 +62,14 @@ class AppState: ObservableObject {
     
     private func startAppEngine() {
         print("Permissions OK. Configuring Mouse Engine...")
-        
-        // fake rule for testing
-        // Map key 3 (Back) -> action "back" (CMD + [)
-        let testRule = MappingRule(
-                    mouseButton: .back,       // physic button
-                    requiredModifiers: [],    // no keyboard pressed
-                    action: .navigation(.back) // logic action
-                )
                 
-                // rule added to profile
-                userProfile.rules.append(testRule)
-                // -------------------------------
+        // dynamic handler
+        // pass the profile (by reference)
+        let configHandler = ConfigurableHandler(profile: userProfile)
+        mouseDriver.add(handler: configHandler)
                 
-                // dynamic handler
-                // pass the profile (by reference)
-                let configHandler = ConfigurableHandler(profile: userProfile)
-                mouseDriver.add(handler: configHandler)
-                
-                mouseDriver.start()
-                isEngineRunning = true
+        mouseDriver.start()
+        isEngineRunning = true
     }
     
     func openSettings() {
