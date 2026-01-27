@@ -31,6 +31,7 @@ enum ActionCategory: String, CaseIterable, Identifiable {
     case keyboard = "Keyboard Shortcut"
     case system = "System Function"
     case navigation = "Navigation"
+    case modification = "Speed / Sensivity"
     
     var id: String { rawValue }
 }

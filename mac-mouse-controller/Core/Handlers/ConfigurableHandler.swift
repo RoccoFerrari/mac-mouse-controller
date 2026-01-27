@@ -19,18 +19,18 @@ class ConfigurableHandler: MouseEventHandler {
     }
     
     func handle(type: CGEventType, event: CGEvent) -> CGEvent? {
-        // We generally trigger actions on "MouseDown".
-        // If we intercepted "MouseUp" without consuming "MouseDown", it might confuse the OS.
-        // For simple triggers, consuming MouseDown is usually sufficient (the OS generates no click).
-        guard type == .leftMouseDown ||
-              type == .rightMouseDown ||
-              type == .otherMouseDown else {
-            return event
-        }
         
         // Identify the input
-        let buttonNumber = Int(event.getIntegerValueField(.mouseEventButtonNumber))
-        let currentButton = MouseButton(rawValue: buttonNumber) ?? .other
+        var currentButton: MouseButton = .other
+        
+        if type == .scrollWheel {
+            currentButton = .scroll
+        } else if type == .leftMouseDown || type == .rightMouseDown || type == .otherMouseDown {
+            let num = event.getIntegerValueField(.mouseEventButtonNumber)
+            currentButton = MouseButton(rawValue: Int(num)) ?? .other
+        } else {
+            return event // ignore movement events or keyUp
+        }
         
         // Identify modifiers (Cmd, Ctrl, etc.) currently held down
         let currentModifiers = ModifierSet.from(cgFlags: event.flags)
@@ -45,11 +45,7 @@ class ConfigurableHandler: MouseEventHandler {
             print("Match found! Rule ID: \(rule.id). Executing action...")
             
             // EXECUTE the action
-            execute(action: rule.action)
-            
-            // CONSUME the event (return nil)
-            // The OS will not receive this click.
-            return nil
+            return execute(action: rule.action, on: event)
         }
         
         // No rule found -> Pass the event through
@@ -58,19 +54,30 @@ class ConfigurableHandler: MouseEventHandler {
     
     // MARK: - Action Execution Logic
     
-    private func execute(action: ActionType) {
+    private func execute(action: ActionType, on event: CGEvent) -> CGEvent? {
         switch action {
+        case .sensivity(factor: let factor):
+            // Multiply deltaY by factor
+            let axis1 = event.getIntegerValueField(.scrollWheelEventDeltaAxis1) // Y axis
+            let axis2 = event.getIntegerValueField(.scrollWheelEventDeltaAxis2) // X axis
+            event.setIntegerValueField(.scrollWheelEventDeltaAxis1, value: Int64(Double(axis1) * factor))
+            event.setIntegerValueField(.scrollWheelEventDeltaAxis2, value: Int64(Double(axis2) * factor))
+            return event // not nil
+            
         case .keyboardShortcut(let keyCode, let modifiers):
             simulateKeystroke(keyCode: keyCode, modifiers: modifiers)
+            return nil
             
         case .systemFunction(let feature):
             performSystemFeature(feature)
+            return nil
             
         case .navigation(let navAction):
             performNavigation(navAction)
+            return nil
             
         case .none:
-            break
+            return event
         }
     }
     

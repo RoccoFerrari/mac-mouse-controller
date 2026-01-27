@@ -15,10 +15,12 @@ enum MouseButton: Int, Codable, CaseIterable {
     case middle = 2
     case back = 3
     case forward = 4
+    case scroll = -2
     case other = -1
     
     var displayName: String {
         switch self {
+        case .scroll: return "Scroll Wheel"
         case .left: return "Left Click"
         case .right: return "Right Click"
         case .middle: return "Middle Click (Wheel)"

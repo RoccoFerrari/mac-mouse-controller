@@ -12,6 +12,7 @@ enum ActionType: Codable, Hashable {
     case keyboardShortcut(keyCode: Int, modifiers: ModifierSet) // Es. simulate CMD+C
     case systemFunction(SystemFeature) // Es. Mission Control
     case navigation(NavigationAction)  // Es. Swipe between pages/spaces
+    case sensivity(factor: Double) // Wheel sensiivty
     case none // pass-through
 }
 

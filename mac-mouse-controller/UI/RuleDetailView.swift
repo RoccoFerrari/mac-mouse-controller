@@ -15,6 +15,8 @@ struct RuleDetailView: View {
     @State var rule: MappingRule
     var isNew: Bool
     
+    @State private var speedFactor: Double = 1.0
+    
     // Tmp state for handle the picker
     @State private var selectedCategory: ActionCategory = .none
     
@@ -54,6 +56,20 @@ struct RuleDetailView: View {
                 
                 // Conditional form dependent on category
                 switch selectedCategory {
+                case .modification:
+                    VStack(alignment: .leading) {
+                        Text("Scroll Speed Multiplier: \(String(format: "%.1fx", speedFactor))")
+                        Slider(value: $speedFactor, in: 0.1...15.0, step: 0.1) {
+                            Text("Speed")
+                        } minimumValueLabel: {
+                            Text("0.1x")
+                        } maximumValueLabel: {
+                            Text("15.0x")
+                        }
+                    }
+                    Text("Values > 1.0 accelerate. Values < 1.0 slow down (precision).")
+                        .font(.caption).foregroundStyle(.secondary)
+        
                 case .system:
                     Picker("Function", selection: $selectedSysFeature) {
                         ForEach(SystemFeature.allCases, id: \.self) { feat in
@@ -104,6 +120,9 @@ struct RuleDetailView: View {
     
     func setupInitialState() {
         switch rule.action {
+        case .sensivity(let f):
+            selectedCategory = .modification
+            speedFactor = f
         case .systemFunction(let f):
             selectedCategory = .system
             selectedSysFeature = f
@@ -122,6 +141,8 @@ struct RuleDetailView: View {
     func saveRule() {
         // Rebuilds the ActionType enum from temporary values
         switch selectedCategory {
+        case .modification:
+            rule.action = .sensivity(factor: speedFactor)
         case .system:
             rule.action = .systemFunction(selectedSysFeature)
         case .navigation:
