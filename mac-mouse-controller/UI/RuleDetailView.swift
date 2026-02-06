@@ -56,6 +56,9 @@ struct RuleDetailView: View {
                 
                 // Conditional form dependent on category
                 switch selectedCategory {
+                case .zoom:
+                    Text("Simulates Cmd + / Cmd - based on scroll direction.")
+                        .foregroundStyle(.secondary)
                 case .modification:
                     VStack(alignment: .leading) {
                         Text("Scroll Speed Multiplier: \(String(format: "%.1fx", speedFactor))")
@@ -120,19 +123,26 @@ struct RuleDetailView: View {
     
     func setupInitialState() {
         switch rule.action {
+        case .zoom:
+            selectedCategory = .zoom
+            
         case .sensivity(let f):
             selectedCategory = .modification
             speedFactor = f
+            
         case .systemFunction(let f):
             selectedCategory = .system
             selectedSysFeature = f
+            
         case .navigation(let n):
             selectedCategory = .navigation
             selectedNavAction = n
+            
         case .keyboardShortcut(let k, let m):
             selectedCategory = .keyboard
             keyCodeInput = k
             keyModifiers = m
+            
         case .none:
             selectedCategory = .none
         }
@@ -141,14 +151,21 @@ struct RuleDetailView: View {
     func saveRule() {
         // Rebuilds the ActionType enum from temporary values
         switch selectedCategory {
+        case .zoom:
+            rule.action = .zoom
+            
         case .modification:
             rule.action = .sensivity(factor: speedFactor)
+            
         case .system:
             rule.action = .systemFunction(selectedSysFeature)
+            
         case .navigation:
             rule.action = .navigation(selectedNavAction)
+            
         case .keyboard:
             rule.action = .keyboardShortcut(keyCode: keyCodeInput, modifiers: keyModifiers)
+            
         case .none:
             rule.action = .none
         }

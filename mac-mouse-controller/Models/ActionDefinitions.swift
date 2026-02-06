@@ -13,6 +13,7 @@ enum ActionType: Codable, Hashable {
     case systemFunction(SystemFeature) // Es. Mission Control
     case navigation(NavigationAction)  // Es. Swipe between pages/spaces
     case sensivity(factor: Double) // Wheel sensiivty
+    case zoom
     case none // pass-through
 }
 

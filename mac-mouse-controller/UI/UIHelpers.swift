@@ -32,6 +32,7 @@ enum ActionCategory: String, CaseIterable, Identifiable {
     case system = "System Function"
     case navigation = "Navigation"
     case modification = "Speed / Sensivity"
+    case zoom = "Smart Zoom"
     
     var id: String { rawValue }
 }

@@ -66,11 +66,17 @@ struct RuleRowView: View {
     
     func actionDescription(_ action: ActionType) -> String {
         switch action {
+        case .zoom: return "Zoom (Scroll)"
+            
         case.sensivity(let f):
             return "Speed: \(String(format: "%.1fx", f))"
+            
         case .none: return "None"
+            
         case .keyboardShortcut(let code, _): return "Button \(code)" // Could map code in names
+            
         case .systemFunction(let feat): return feat.rawValue.capitalized
+            
         case .navigation(let nav): return "Navigation: \(nav.rawValue)"
         }
     }

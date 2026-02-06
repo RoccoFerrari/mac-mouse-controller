@@ -56,6 +56,21 @@ class ConfigurableHandler: MouseEventHandler {
     
     private func execute(action: ActionType, on event: CGEvent) -> CGEvent? {
         switch action {
+        case .zoom:
+            // Direction of the scroll
+            let deltaY = event.getIntegerValueField(.scrollWheelEventDeltaAxis1)
+            
+            if deltaY > 0 {
+                // Scroll Up -> Zoom In
+                // Keypad num: 69 = +
+                simulateKeystroke(keyCode: 69, modifiers: .command)
+            } else if deltaY < 0 {
+                // Scroll Down -> Zoom out
+                // Keypad num: 78 = -
+                simulateKeystroke(keyCode: 78, modifiers: .command)
+            }
+            return nil
+            
         case .sensivity(factor: let factor):
             // Multiply deltaY by factor
             let axis1 = event.getIntegerValueField(.scrollWheelEventDeltaAxis1) // Y axis
