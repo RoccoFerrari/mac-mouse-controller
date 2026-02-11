@@ -38,6 +38,8 @@ struct ContentView: View {
                             Section {
                                 Toggle("Natural Scrolling (Invert)", isOn: $appState.userProfile.invertScrolling)
                                     .toggleStyle(SwitchToggleStyle(tint: .blue))
+                                Toggle("Smooth Scrolling", isOn: $appState.userProfile.smoothScrolling)
+                                    .toggleStyle(SwitchToggleStyle(tint: .purple))
                             } header: {
                                 Text("Global Settings")
                             }

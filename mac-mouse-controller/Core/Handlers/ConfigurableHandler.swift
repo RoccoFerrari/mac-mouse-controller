@@ -14,11 +14,45 @@ class ConfigurableHandler: MouseEventHandler {
     // Reference to the source of truth for user settings
     private var userProfile: UserProfile
     
+    // Variables for SMOOTH SCROLLING
+    private var velocityY: Double = 0
+    private var velocityX: Double = 0
+    private var scrollTimer: Timer?
+    private let friction: Double = 0.92 // Deceleration (0.92 = fluid, 0.8 = instant)
+    private let stopThreshold: Double = 0.2 // Speed ​​below which we stop
+    private let magicNumber: Int64 = 555 // ID for recognize these events
+    
     init(profile: UserProfile) {
         self.userProfile = profile
     }
     
     func handle(type: CGEventType, event: CGEvent) -> CGEvent? {
+        
+        // check infinte loop
+        if event.getIntegerValueField(.eventSourceUserData) == magicNumber {
+            return event
+        }
+        
+        // Smooth scrolling logic
+        if type == .scrollWheel && userProfile.smoothScrolling {
+            // if zoomming -> smooth disabled
+            let flags = event.flags
+            if !flags.contains(.maskCommand) {
+                let deltaY = event.getIntegerValueField(.scrollWheelEventDeltaAxis1)
+                let deltaX = event.getIntegerValueField(.scrollWheelEventDeltaAxis2)
+                // if there is movement -> we accumulate speed
+                if deltaY != 0 || deltaX != 0 {
+                    velocityY += Double(deltaY) * 3.0
+                    velocityX += Double(deltaX) * 3.0
+                    
+                    startSmoothTimer()
+                    
+                    // No more jerky event
+                    return nil
+                }
+                
+            }
+        }
         
         // Handle global scroll inversion
         if type == .scrollWheel && userProfile.invertScrolling {
@@ -104,6 +138,60 @@ class ConfigurableHandler: MouseEventHandler {
         case .none:
             return event
         }
+    }
+    
+    // Smooth Scrolling logic
+    private func startSmoothTimer() {
+        // If a timer exists already, we don't create a new one
+        if scrollTimer != nil { return }
+        
+        // 60fps timer -> 0.016 sec
+        DispatchQueue.main.async {
+            self.scrollTimer = Timer.scheduledTimer(withTimeInterval: 0.016, repeats: true) { [weak self] timer in
+                guard let self = self else { timer.invalidate(); return }
+                self.processSmoothTick()
+            }
+        }
+    }
+    
+    private func processSmoothTick() {
+        // Apply friction
+        velocityY *= friction
+        velocityX *= friction
+        
+        // if speed is almost zero, stop
+        if abs(velocityY) < stopThreshold && abs(velocityX) < stopThreshold {
+            stopSmoothTimer()
+            return
+        }
+        
+        // Compute the delta frame
+        // If 'Invert' is enabled, values are inverted here
+        let direction = userProfile.invertScrolling ? -1.0 : 1.0
+        let deltaY = Int64(round(velocityY * direction))
+        let deltaX = Int64(round(velocityX * direction))
+        
+        // if values are 0 (but speed > threshold), no empty events are returned
+        if deltaY == 0 && deltaX == 0 { return }
+        
+        // Syntetic event scroll
+        if let event = CGEvent(scrollWheelEvent2Source: nil,
+                               units: .pixel,
+                               wheelCount: 2,
+                               wheel1: Int32(deltaY),
+                               wheel2: Int32(deltaX),
+                               wheel3: 0) {
+            // magic number for recognize the vent in handle()
+            event.setIntegerValueField(.eventSourceUserData, value: magicNumber)
+            event.post(tap: .cghidEventTap)
+        }
+    }
+    
+    private func stopSmoothTimer() {
+        scrollTimer?.invalidate()
+        scrollTimer = nil
+        velocityX = 0
+        velocityY = 0
     }
     
     // Helper: Simulates a physical keyboard press
