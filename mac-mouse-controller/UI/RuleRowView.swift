@@ -10,6 +10,8 @@ import SwiftUI
 struct RuleRowView: View {
     let rule: MappingRule
     
+    var onDelete: (() -> Void)? = nil
+    
     var body: some View {
         HStack {
             // Left: TRIGGER
@@ -39,6 +41,17 @@ struct RuleRowView: View {
                 .foregroundStyle(.blue)
             
             Spacer()
+            
+            // Delete button
+            if let onDelete {
+                Button(action: onDelete) {
+                    Image(systemName: "trash")
+                        .foregroundStyle(.red)
+                }
+                .buttonStyle(.borderless)
+                .padding(.leading, 8)
+                .help("Delete rule")
+            }
         }
         .padding(.vertical, 4)
     }

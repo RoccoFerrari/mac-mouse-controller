@@ -41,7 +41,9 @@ struct ContentView: View {
                                     RuleDetailView(userProfile: appState.userProfile, rule: rule, isNew: false)
                                 } label: {
                                     // Custom row view for the rule
-                                    RuleRowView(rule: rule)
+                                    RuleRowView(rule: rule, onDelete: {
+                                        deleteRule(id: rule.id)
+                                    })
                                 }
                             }
                             .onDelete(perform: deleteRule)
@@ -111,4 +113,9 @@ struct ContentView: View {
     func deleteRule(at offsets: IndexSet) {
         appState.userProfile.rules.remove(atOffsets: offsets)
     }
+    func deleteRule(id: UUID) {
+            if let index = appState.userProfile.rules.firstIndex(where: { $0.id == id }) {
+                appState.userProfile.rules.remove(at: index)
+            }
+        }
 }
