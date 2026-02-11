@@ -47,12 +47,16 @@ struct RuleDetailView: View {
             }
             
             Section("Do this...") {
-                Picker("Action type", selection: $selectedCategory) {
-                    ForEach(ActionCategory.allCases) { cat in
-                        Text(cat.rawValue).tag(cat)
+                ScrollView(.horizontal, showsIndicators: true) {
+                    Picker("Action type", selection: $selectedCategory) {
+                        ForEach(ActionCategory.allCases) { cat in
+                            Text(cat.rawValue).tag(cat)
+                        }
                     }
+                    .pickerStyle(.segmented)
+                    // Impostiamo una larghezza minima ampia per forzare i bottoni a non tagliarsi
+                    .frame(minWidth: 700)
                 }
-                .pickerStyle(.segmented)
                 
                 // Conditional form dependent on category
                 switch selectedCategory {
@@ -88,14 +92,8 @@ struct RuleDetailView: View {
                     }
                     
                 case .keyboard:
-                    HStack {
-                        Text("Button code:")
-                        TextField("Es. 123", value: $keyCodeInput, formatter: NumberFormatter())
-                            .frame(width: 50)
-                    }
-                    Text("Note: For now, enter the numeric code (e.g., 49 = Space). We will add a keylogger in the future.")
-                        .font(.caption).foregroundStyle(.secondary)
-                    
+                    Text("Keyboard shortcut recording coming soon.")
+                        .foregroundStyle(.secondary)
                 case .none:
                     Text("No action taken.")
                         .foregroundStyle(.secondary)

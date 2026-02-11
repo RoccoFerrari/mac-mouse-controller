@@ -14,9 +14,13 @@ class PermissionManager {
     /// Check for permissions.
     /// If not present, application shows default popup
     /// - Parameter shouldPrompt: if True, shows system popup
-    static func checkAccessibilityPermissions(shouldPrompt: Bool = false) -> Bool {
-            let options: NSDictionary = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String : shouldPrompt]
-            return AXIsProcessTrustedWithOptions(options)
+    static func checkAccessibilityPermissions(shouldPrompt: Bool) -> Bool {
+        let promptKey = kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String
+        let options: [String: Any] = [
+                    promptKey: shouldPrompt
+                ]
+        let isTrusted = AXIsProcessTrustedWithOptions(options as CFDictionary)
+            return isTrusted
         }
         
     /// Open the pannel: Privacy & Sicurity -> Accessibility

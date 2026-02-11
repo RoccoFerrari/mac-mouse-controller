@@ -77,12 +77,19 @@ struct ContentView: View {
                             .multilineTextAlignment(.center)
                             .padding(.horizontal)
                             .foregroundStyle(.secondary)
-                        
-                        Button("Open Settings") {
-                            appState.openSettings()
+                        HStack {
+                            // Open settings
+                            Button("Open Settings") {
+                                appState.openSettings()
+                            }
+                            .buttonStyle(.bordered)
+                            
+                            Button("Check / Prompt") {
+                                appState.requestPermissionsExplicitly()
+                            }
+                            .buttonStyle(.borderedProminent)
                         }
                         .controlSize(.large)
-                        .buttonStyle(.borderedProminent)
                         
                         // Quit button is useful if the user gets stuck here
                         Button("Exit App") {
