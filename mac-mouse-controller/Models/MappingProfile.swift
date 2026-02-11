@@ -29,12 +29,17 @@ class UserProfile: ObservableObject, Codable {
         }
     }
     
+    @Published var invertScrolling: Bool = false {
+        didSet {saveToDisk() }
+    }
+    
     // Key to save data
     private let storageKey = "MouseController_Rules_V1"
     
     // Method neede to support @Published with Codable
     enum CodingKeys: CodingKey {
         case rules
+        case invertScrolling
     }
     
     init() {
@@ -44,11 +49,13 @@ class UserProfile: ObservableObject, Codable {
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         rules = try container.decode([MappingRule].self, forKey: .rules)
+        invertScrolling = try container.decodeIfPresent(Bool.self, forKey: .invertScrolling) ?? false
     }
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(rules, forKey: .rules)
+        try container.encode(invertScrolling, forKey: .invertScrolling)
     }
     
     // MARK: Persistence Logic

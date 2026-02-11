@@ -20,6 +20,16 @@ class ConfigurableHandler: MouseEventHandler {
     
     func handle(type: CGEventType, event: CGEvent) -> CGEvent? {
         
+        // Handle global scroll inversion
+        if type == .scrollWheel && userProfile.invertScrolling {
+            let currentY = event.getIntegerValueField(.scrollWheelEventDeltaAxis1)
+            let currentX = event.getIntegerValueField(.scrollWheelEventDeltaAxis2)
+                    
+            // Sign invert
+            event.setIntegerValueField(.scrollWheelEventDeltaAxis1, value: -currentY)
+            event.setIntegerValueField(.scrollWheelEventDeltaAxis2, value: -currentX)
+        }
+        
         // Identify the input
         var currentButton: MouseButton = .other
         

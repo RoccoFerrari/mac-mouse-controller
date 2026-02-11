@@ -35,18 +35,28 @@ struct ContentView: View {
                     } else {
                         // The actual list of configured rules
                         List {
-                            ForEach(appState.userProfile.rules) { rule in
-                                NavigationLink {
-                                    // Navigate to Detail View in "Edit Mode"
-                                    RuleDetailView(userProfile: appState.userProfile, rule: rule, isNew: false)
-                                } label: {
-                                    // Custom row view for the rule
-                                    RuleRowView(rule: rule, onDelete: {
-                                        deleteRule(id: rule.id)
-                                    })
-                                }
+                            Section {
+                                Toggle("Natural Scrolling (Invert)", isOn: $appState.userProfile.invertScrolling)
+                                    .toggleStyle(SwitchToggleStyle(tint: .blue))
+                            } header: {
+                                Text("Global Settings")
                             }
-                            .onDelete(perform: deleteRule)
+                            Section {
+                                ForEach(appState.userProfile.rules) { rule in
+                                    NavigationLink {
+                                        // Navigate to Detail View in "Edit Mode"
+                                        RuleDetailView(userProfile: appState.userProfile, rule: rule, isNew: false)
+                                    } label: {
+                                        // Custom row view for the rule
+                                        RuleRowView(rule: rule, onDelete: {
+                                            deleteRule(id: rule.id)
+                                        })
+                                    }
+                                }
+                                .onDelete(perform: deleteRule)
+                            } header: {
+                                Text("Custom Rules")
+                            }
                         }
                         .listStyle(.inset)
                     }
