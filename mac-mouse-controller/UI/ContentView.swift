@@ -7,20 +7,34 @@
 
 import SwiftUI
 
+/// **Main User Interface**
+///
+/// This is the root view of the application. It acts as a dashboard that reacts to the global `AppState`.
+/// - If permissions are missing -> It shows an onboarding/warning screen.
+/// - If permissions are present -> It shows the list of active rules and global settings.
 struct ContentView: View {
     // Access the global state
+    /// **Dependency Injection**
+    /// Retrieves the shared `AppState` instance passed down from `MacMouseControllerApp`.
+    /// This allows the view to react instantly to changes in permissions or the user profile.
     @EnvironmentObject var appState: AppState
     
     // State to manage the "Add Rule" sheet presentation
+    /// Controls the visibility of the "New Rule" modal window.
     @State private var showAddSheet = false
     
     var body: some View {
         NavigationStack {
             VStack {
+                // **Main Logic Switch**
+                // The UI splits here based on system security status.
                 if appState.hasPermissions {
                     // state 1: Permissions Granted -> Show Rule List
+                    
                     if appState.userProfile.rules.isEmpty {
-                        // Empty state placeholder
+                        // **Empty State**
+                        // Shown when the user hasn't configured any mappings yet.
+                        // Provides a clear call to action.
                         VStack(spacing: 20) {
                             Image(systemName: "mouse.fill")
                                 .font(.system(size: 60))
@@ -33,8 +47,10 @@ struct ContentView: View {
                         }
                         .frame(maxHeight: .infinity)
                     } else {
-                        // The actual list of configured rules
+                        // **Dashboard State**
+                        // Displays the actual list of configured rules and global toggles.
                         List {
+                            // Section 1: Global Configuration
                             Section {
                                 Toggle("Natural Scrolling (Invert)", isOn: $appState.userProfile.invertScrolling)
                                     .toggleStyle(SwitchToggleStyle(tint: .blue))
@@ -43,10 +59,12 @@ struct ContentView: View {
                             } header: {
                                 Text("Global Settings")
                             }
+                            
+                            // Section 2: User Rules
                             Section {
                                 ForEach(appState.userProfile.rules) { rule in
+                                    // Navigate to Detail View in "Edit Mode" (isNew: false)
                                     NavigationLink {
-                                        // Navigate to Detail View in "Edit Mode"
                                         RuleDetailView(userProfile: appState.userProfile, rule: rule, isNew: false)
                                     } label: {
                                         // Custom row view for the rule
@@ -65,6 +83,7 @@ struct ContentView: View {
                     
                 } else {
                     // state 2: Permissions Missing -> Show Request UI
+                    // This block blocks the main functionality until the user grants access.
                     VStack(spacing: 20) {
                         Image(systemName: "hand.raised.fill")
                             .font(.system(size: 60))
@@ -77,13 +96,16 @@ struct ContentView: View {
                             .multilineTextAlignment(.center)
                             .padding(.horizontal)
                             .foregroundStyle(.secondary)
+                        
+                        // Action Buttons
                         HStack {
-                            // Open settings
+                            // Deep link to System Settings
                             Button("Open Settings") {
                                 appState.openSettings()
                             }
                             .buttonStyle(.bordered)
                             
+                            // Trigger the system popup manually
                             Button("Check / Prompt") {
                                 appState.requestPermissionsExplicitly()
                             }
@@ -91,7 +113,7 @@ struct ContentView: View {
                         }
                         .controlSize(.large)
                         
-                        // Quit button is useful if the user gets stuck here
+                        // Quit button is useful if the user gets stuck here or wants to restart
                         Button("Exit App") {
                             appState.quitApp()
                         }
@@ -115,6 +137,7 @@ struct ContentView: View {
             .sheet(isPresented: $showAddSheet) {
                 NavigationStack {
                     // Initialize Detail View with a fresh, empty rule
+                    // We pass a dummy rule with default values to start.
                     RuleDetailView(
                         userProfile: appState.userProfile,
                         rule: MappingRule(mouseButton: .other, requiredModifiers: [], action: .none),
@@ -128,10 +151,14 @@ struct ContentView: View {
         .frame(minWidth: 600, minHeight: 400)
     }
     
-    // Helper to delete rules via swipe or delete key
+    // MARK: - Helper Methods
+    
+    /// Helper to delete rules via swipe or delete key (List standard behavior).
     func deleteRule(at offsets: IndexSet) {
         appState.userProfile.rules.remove(atOffsets: offsets)
     }
+    
+    /// Helper to delete rules via the trash icon button.
     func deleteRule(id: UUID) {
             if let index = appState.userProfile.rules.firstIndex(where: { $0.id == id }) {
                 appState.userProfile.rules.remove(at: index)

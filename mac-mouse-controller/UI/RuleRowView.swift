@@ -7,19 +7,28 @@
 
 import SwiftUI
 
+/// **List Row Component**
+///
+/// Displays a concise summary of a single `MappingRule` within a list.
+/// Visual layout: `[Icon + Modifiers] -> [Action Description]`.
 struct RuleRowView: View {
+    /// The specific mapping rule data to display in this row.
     let rule: MappingRule
     
+    /// Optional callback triggered when the delete button is pressed.
+    /// If `nil`, the delete icon is hidden.
     var onDelete: (() -> Void)? = nil
     
     var body: some View {
         HStack {
             // Left: TRIGGER
+            // Displays the physical input (Mouse Button + Keyboard Modifiers)
             HStack(spacing: 4) {
                 // Mouse icon
                 Image(systemName: iconName(for: rule.mouseButton))
                     .font(.title2)
                 
+                // If modifiers are required (e.g. Cmd+Click), display them next to the icon
                 if !rule.requiredModifiers.isEmpty {
                     Text("+")
                         .foregroundStyle(.secondary)
@@ -32,10 +41,12 @@ struct RuleRowView: View {
             }
             .frame(width: 120, alignment: .leading)
             
+            // Visual separator
             Image(systemName: "arrow.right")
                 .foregroundStyle(.secondary)
             
             // Right: ACTION
+            // Text description of what happens when triggered
             Text(actionDescription(rule.action))
                 .font(.headline)
                 .foregroundStyle(.blue)
@@ -43,6 +54,7 @@ struct RuleRowView: View {
             Spacer()
             
             // Delete button
+            // Only appears if the parent view provided a delete action
             if let onDelete {
                 Button(action: onDelete) {
                     Image(systemName: "trash")
@@ -57,6 +69,7 @@ struct RuleRowView: View {
     }
     
     // Visible helper
+    /// Maps a `MouseButton` enum case to a corresponding SF Symbol name.
     func iconName(for btn: MouseButton) -> String {
         switch btn {
         case .left: return "cursorarrow.click"
@@ -68,6 +81,7 @@ struct RuleRowView: View {
         }
     }
     
+    /// Converts a `ModifierSet` into a string of standard macOS symbols (e.g., "⌘⇧").
     func modifiersString(_ mods: ModifierSet) -> String {
         var symbols = ""
         if mods.contains(.control) { symbols += "⌃" }
@@ -77,6 +91,7 @@ struct RuleRowView: View {
         return symbols
     }
     
+    /// Generates a human-readable text summary of the configured `ActionType`.
     func actionDescription(_ action: ActionType) -> String {
         switch action {
         case .zoom: return "Zoom (Scroll)"
