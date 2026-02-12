@@ -22,7 +22,22 @@
 
 ## ⚙️ Installation & Setup
 
-### Prerequisites
+### 📥 Download (Pre-compiled)
+Don't want to build from source? You can download the latest version directly from the Releases page.
+
+1. **[Download mac-mouse-controller.zip](https://github.com/RoccoFerrari/mac-mouse-controller/releases/latest)**
+2. Unzip the file and move `mac-mouse-controller.app` to your **Applications** folder.
+
+> **⚠️ Important:** Since this app is not signed with a paid Apple Developer ID, macOS might tell you the app is "damaged" or "cannot be opened" on the first launch. To fix this:
+>
+> 1. Open **Terminal**.
+> 2. Run the following command:
+>    ```bash
+>    xattr -cr /Applications/mac-mouse-controller.app
+>    ```
+> 3. Launch the app again.
+
+### Prerequisites (For building)
 * macOS 13.0+ (Ventura or newer recommended)
 * Xcode 14+ (for building from source)
 
