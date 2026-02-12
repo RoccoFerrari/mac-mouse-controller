@@ -57,9 +57,27 @@ class ConfigurableHandler: MouseEventHandler {
                 let deltaX = event.getIntegerValueField(.scrollWheelEventDeltaAxis2)
                 // if there is movement -> we accumulate speed
                 if deltaY != 0 || deltaX != 0 {
+                    // Get current modifiers
+                    let currentModifiers = ModifierSet.from(cgFlags: flags)
+                    
+                    // Base value of multiplier
+                    var sensitivityFactor: Double = 1.0
+                    
+                    // Check for an active scroll rule
+                    if let rule = userProfile.rules.first(where: {
+                        $0.isEnabled &&
+                        $0.mouseButton == .scroll &&
+                        $0.requiredModifiers == currentModifiers
+                    }) {
+                        // If rule support .sensivity, extract the factor
+                        if case .sensivity(let factor) = rule.action {
+                            sensitivityFactor = factor
+                        }
+                    }
+                    
                     // Accumulate velocity based on input intensity.
-                    velocityY += Double(deltaY) * 3.0
-                    velocityX += Double(deltaX) * 3.0
+                    velocityY += Double(deltaY) * 3.0 * sensitivityFactor
+                    velocityX += Double(deltaX) * 3.0 * sensitivityFactor
                     
                     startSmoothTimer()
                     
