@@ -7,6 +7,7 @@
 
 import SwiftUI
 internal import Combine
+import ServiceManagement
 
 /// **Global ViewModel / Source of Truth**
 ///
@@ -31,6 +32,15 @@ class AppState: ObservableObject {
     /// Changes here are observed to update the engine dynamically.
     @Published var userProfile = UserProfile()
     
+    /// Variable used for start the aplication once logged in the mac
+    @Published var launchAtLogin: Bool = false {
+        didSet {
+            if launchAtLogin != oldValue {
+                updateLaunchAtLogin()
+            }
+        }
+    }
+    
     // MARK: - Private Properties
         
     /// A handle for the background permission monitoring loop.
@@ -46,6 +56,9 @@ class AppState: ObservableObject {
     // MARK: - Initialization
     
     init() {
+        // Read the actual state from the system at the boot
+        self.launchAtLogin = SMAppService.mainApp.status == .enabled
+        
         // Reactive Binding:
         // Since `userProfile` is a nested ObservableObject, we need to explicitly listen
         // for its changes and trigger an update on `AppState` so the View redraws.
@@ -142,6 +155,22 @@ class AppState: ObservableObject {
     private func stopAppEngine() {
         mouseDriver.stop()
         isEngineRunning = false
+    }
+    
+    /// Interact with the OS and register the application for the next boot
+    private func updateLaunchAtLogin() {
+        do {
+            if launchAtLogin {
+                try SMAppService.mainApp.register()
+                print("Launch at login: ENABLED")
+            } else {
+                try SMAppService.mainApp.unregister()
+                print("Launch at login: DISABLED")
+            }
+        } catch {
+            print("Failed to update launch at login status: \(error.localizedDescription)")
+            self.launchAtLogin = SMAppService.mainApp.status == .enabled
+        }
     }
     
     // MARK: - User Actions

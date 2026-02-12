@@ -52,10 +52,11 @@ struct ContentView: View {
                         List {
                             // Section 1: Global Configuration
                             Section {
+                                Toggle("Start at Login", isOn: $appState.launchAtLogin)
                                 Toggle("Natural Scrolling (Invert)", isOn: $appState.userProfile.invertScrolling)
                                     .toggleStyle(SwitchToggleStyle(tint: .blue))
                                 Toggle("Smooth Scrolling", isOn: $appState.userProfile.smoothScrolling)
-                                    .toggleStyle(SwitchToggleStyle(tint: .purple))
+                                    .toggleStyle(SwitchToggleStyle(tint: .blue))
                             } header: {
                                 Text("Global Settings")
                             }
