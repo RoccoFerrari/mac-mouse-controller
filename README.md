@@ -29,7 +29,7 @@
 ### Building from Source
 1.  Clone the repository:
     ```bash
-    git clone [https://github.com/yourusername/mac-mouse-controller.git](https://github.com/yourusername/mac-mouse-controller.git)
+    git clone [https://github.com/RoccoFerrari/mac-mouse-controller.git](https://github.com/RoccoFerrari/mac-mouse-controller.git)
     ```
 2.  Open `mac-mouse-controller.xcodeproj` in Xcode.
 3.  **Important:** Ensure **App Sandbox** is DISABLED in the "Signing & Capabilities" tab. This app requires low-level access to input devices which is not allowed in the Sandbox.
