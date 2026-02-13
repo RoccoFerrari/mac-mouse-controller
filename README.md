@@ -2,6 +2,8 @@
 
 **Mac Mouse Controller** is a native macOS utility written in Swift that allows you to fully customize your mouse behavior. It leverages Core Graphics Event Taps (`CGEventTap`) to intercept and modify system-wide mouse input, enabling features like smooth scrolling, custom button mapping, and navigation gestures on standard mice.
 
+*See documentation [here](https://roccoferrari.github.io/mac-mouse-controller/).*
+
 ## 🚀 Key Features
 
 * **Custom Button Mapping:** Remap any physical mouse button (Left, Right, Middle, Side Buttons) to custom actions.
