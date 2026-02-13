@@ -120,6 +120,8 @@ class UserProfile: ObservableObject, Codable {
             let encoder = JSONDecoder()
             let savedRules = try encoder.decode(UserProfile.self, from: data)
             self.rules = savedRules.rules
+            self.invertScrolling = savedRules.invertScrolling
+            self.smoothScrolling = savedRules.smoothScrolling
             print("Configurations loaded: \(rules.count) rules")
         } catch {
             print("Failed to load rules: \(error)")
